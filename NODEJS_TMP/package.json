@@ -1,0 +1,16 @@
+{
+  "name": "mariadb-test",
+  "version": "1.0.0",
+  "description": "mariadb connection testing project",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mariadb": "^2.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sohee",
+  "license": "ISC"
+}
