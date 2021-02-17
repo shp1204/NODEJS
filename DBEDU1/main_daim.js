@@ -1,7 +1,7 @@
 // 미리 npm install mysql 로 설치하기
 var mysql = require('mysql');
 // 정보를 담은 파일
-const vals = require('./consts.js');
+const vals = require('./info/consts_daim.js');
 // 연결을 위한 정보 불러오기
 var con = mysql.createConnection({
     host: vals.DBHost, port:vals.DBPort,
@@ -17,16 +17,16 @@ con.connect(function(err){
 
 // 넣고싶은 정보
 const info = {
-    "name": 'wow',
-    "email": 'wow@mail.com',
-    "age" : '25'
+    "name": 'sohee',
+    "department" : "IT 개발팀",
+    "id" : "shpark",
+    "pw" : "1234",
+    "email": 'wow@mail.com'
 };
 
 // 수행하고 싶은 작업(sql문) 
-// 이 때, mariaDB에 생성한 TABLE의 column명이 같아야한다.
-// INSERT INTO TABLE이름(COLUMN1, COLUMN2, COLUMN3) VALUES(?,?,?)
-var sql = 'INSERT INTO users2(user_name, user_email, user_age) VALUES(?,?,?)';
-var params = [info['name'], info['email'], info['age']]
+var sql = 'INSERT INTO tb_user(user_name, user_department, user_id, user_pw, user_email) VALUES(?,?,?,?,?)';
+var params = [info['name'], info['department'], info['id'], info['pw'], info['email']]
 con.query(sql, params, function(err, rows, fields){
     if(err){
         console.log(err);
@@ -34,9 +34,5 @@ con.query(sql, params, function(err, rows, fields){
         console.log(rows.name);
     }
 });
-
-
-
-
 
 con.end();
