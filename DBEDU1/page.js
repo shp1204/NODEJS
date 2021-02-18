@@ -2,12 +2,14 @@ var http = require('http');
 var fs = require('fs'); 
 var url = require('url'); 
 var qs = require('querystring');
-var bodyParser = require('body-parser');
-var express = require('express')
-var bodyParser = require('body-parser');
-const { json } = require('body-parser');
 
-var app2 = express()
+var express = require('express');
+const session = require("express-session");
+const MySQLStore = require("express-mysql-session")(session);
+var bodyParser = require('body-parser');
+var passport = require("passport"), 
+    LocalStrategy = require("passport-local").Strategy;
+const { connectionLimit } = require('./info/consts_daim.js');
 
 var app = http.createServer(function(request,response){ 
     var _url = request.url; 
@@ -85,7 +87,7 @@ var app = http.createServer(function(request,response){
             </ul>
             <ul>
                 <p> 회사 E-mail 주소
-                <input type = "text" name = "mail" placeholder = "mail" value = "###@daimresearch.com">
+                <input type = "text" name = "mail" placeholder = "mail" value = "###@mail.com">
                 </p>
             </ul>
             <p>
@@ -113,7 +115,6 @@ var app = http.createServer(function(request,response){
             //     console.log(obj[keys[i]]);
             // }
 
-            
             var mysql = require('mysql');
             // 정보를 담은 파일
             const vals = require('./info/consts_daim.js');
@@ -130,18 +131,8 @@ var app = http.createServer(function(request,response){
                 console.log("You are connected");
             });
 
-            // 넣고싶은 정보
-            // const info = {
-            //     "name": 'sohee',
-            //     "department" : "IT 개발팀",
-            //     "id" : "shpark",
-            //     "pw" : "1234",
-            //     "email": 'wow@mail.com'
-            // };
-
             // 수행하고 싶은 작업(sql문) 
             var sql = 'INSERT INTO tb_user(user_name, user_department, user_id, user_pw, user_email) VALUES(?,?,?,?,?)';
-            // var params = [info['name'], info['department'], info['id'], info['pw'], info['email']]
             var params = [obj[keys[0]],obj[keys[1]],obj[keys[2]],obj[keys[4]],obj[keys[5]]]
             con.query(sql, params, function(err, rows, fields){
                 if(err){
@@ -153,16 +144,117 @@ var app = http.createServer(function(request,response){
 
             con.end();
 
-
-            // 사용자가 자기가 쓴 글이 잘 전송되었는지 확인(redirection)
+            // 전송 후 첫화면으로 돌아간다.
             response.writeHead(302, {Location : `/`});
             response.end();
            
         });
-    }
+    } else if(pathname === '/login'){
+        var title = '로그인';
+        var description = "ID와 PW를 입력해주세요.";
+        var html = `
+        <!doctype html> 
+        <html> 
+        <head><title>${title}</title> <meta charset="utf-8"></head> 
+        <body>
+            <h2>로그인</h2>
+            <form action = "/login_process" method = "post">
+            <ul>
+                <p> ID
+                <input type = "text" name = "id" placeholder = "id">
+                </p>
+            </ul>
+            <ul>
+                <p> PW
+                <input type = "text" name = "pw" placeholder = "pw">
+                </p>
+            </ul>
+            <p>
+                <input type="submit" value = "로그인">
+            </p>
+            </form>
+
+        </body> 
+        </html>
+        `;
+        response.writeHead(200);
+        response.end(html);
+    } else if(pathname === '/login_process'){
+        var body = '';
+        request.on('data', function(data){
+            body = body + data;
+        });
+        
+        request.on('end', function(req){
+            var post = qs.parse(body);
+            const obj = JSON.parse(JSON.stringify(post));
+            var keys = Object.keys(obj);
+
+            var mysql = require('mysql');
+            // 정보를 담은 파일
+            const vals = require('./info/consts_daim.js');
+            // 연결을 위한 정보 불러오기
+            var con = mysql.createConnection({
+                host: vals.DBHost, port:vals.DBPort,
+                user: vals.DBUser, password: vals.DBPass,
+                connectionLimit: 5, database: vals.DB
+            });
+
+            // 연결되었는지 확인
+            con.connect(function(err){
+                if (err) throw err;
+                console.log("You are connected");
+            });
+
+            //_____________________________________________________ 
+            // + 추가하고 싶은 기능 : alert
+            //_____________________________________________________ 
+            // id o
+                // pw o 첫화면으로
+                // pw x 로그인화면으로
+            // id x
+                // 회원가입창 
+            //______________________________________________________
+            var sql = 'SELECT user_id, user_pw FROM tb_user WHERE user_id = ?';
+            var params = [obj[keys[0]]];
+            var result_val = 0;
+            con.query(sql, params, function(err, result){
+                try {
+                    var input_id = obj[keys[0]];
+                    var input_pw = obj[keys[1]];
+
+                    var valid_id = result[0].user_id;
+                    var valid_pw = result[0].user_pw;
+
+                    if(input_id === valid_id){
+                        if(input_pw === valid_pw){
+                            console.log('로그인 성공!');
+                            con.end();
+                            response.writeHead(302, {Location : `/`});
+                            response.end();
+                            
+                        } else {
+                            console.log('비밀번호를 확인하세요');
+                            con.end();
+                            response.writeHead(302, {Location : `/login`});
+                            response.end();
+
+                        };
+                    }                    
+                } catch (error) {
+                    console.log('존재하지 않는 회원입니다');
+                    con.end();
+                    response.writeHead(302, {Location : `/join`});
+                    response.end();
+                }
+            });
+            
+        });
+    };
 
     if(pathname == '/favicon.ico'){ 
         return response.writeHead(404); 
     }; 
 });
-    app.listen(3000);
+
+app.listen(3000);
