@@ -217,7 +217,6 @@ var app = http.createServer(function(request,response){
             //______________________________________________________
             var sql = 'SELECT user_id, user_pw FROM tb_user WHERE user_id = ?';
             var params = [obj[keys[0]]];
-            var result_val = 0;
             con.query(sql, params, function(err, result){
                 try {
                     var input_id = obj[keys[0]];
