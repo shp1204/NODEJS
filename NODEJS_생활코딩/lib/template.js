@@ -1,5 +1,5 @@
 var template = {
-    html : function(title, list, body, control){
+    HTML : function(title, list, body, control){
       return `
       <!doctype html>
       <html>
@@ -21,7 +21,7 @@ var template = {
       var list = '<ul>';
       var i = 0;
       while(i < filelist.length){
-        list = list + `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
+        list = list + `<li><a href="/topic/${filelist[i]}">${filelist[i]}</a></li>`;
         i = i + 1;
       }
       list = list+'</ul>';
@@ -50,7 +50,7 @@ var template = {
     var list = '<ul>';
     var i = 0;
     while(i < filelist.length){
-      list = list + `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
+      list = list + `<li><a href="/topic/${filelist[i]}">${filelist[i]}</a></li>`;
       i = i + 1;
     }
     list = list+'</ul>';
