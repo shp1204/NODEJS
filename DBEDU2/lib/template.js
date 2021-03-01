@@ -238,7 +238,7 @@ var template = {
                     </tr>
                     </thead>
                     <tbody class = "table table-hover">
-                        
+                        ${rows}
                     </tbody>
                 </table>
 

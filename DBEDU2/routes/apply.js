@@ -28,7 +28,7 @@ router.post('/process', function(request, response){
 });
 
 
-router.get('/list', function(response){
+router.get('/list', function(request, response){
     //response.send('교육 신청 목록');
     var sql = 'SELECT form_id, form_apply_date, form_user_name, form_lec_title FROM tb_application_form';
     dbconn.SHOW(sql, response);

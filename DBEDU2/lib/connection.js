@@ -1,7 +1,10 @@
 const { response } = require('express');
 const { xssFilter } = require('helmet');
 
+
+
 var dbconn = {
+
     // JOIN 
     INSERT : function(sqlquery, parameters){
         var mysql = require('mysql');
@@ -106,24 +109,33 @@ var dbconn = {
         // 수행하고 싶은 작업(sql문) 
         var sql = sqlquery;
         con.query(sql, function(error, result){
-            console.log(result)
 
             if(error){
                 console.log(err);
             } else{
-                
+                var rows = ``;
+                for(var i=0; i<result.length; i++){
+                    var form_id = i + 1;
+                    var form_apply_date = result[i].form_apply_date;
+                    var form_user_name = result[i].form_user_name;
+                    var form_lec_title = result[i].lec_title;
+                    var rows = rows + `
+                        <tr>
+                        <td>${form_id}</td>
+                        <td>${form_apply_date}</td>
+                        <td>${form_user_name}</td>
+                        <td>${form_lec_title}</td>
+                        </tr>
+                        ` 
+                };                
             }
-        });
-            console.log(result);
             var template = require('../lib/template.js');
-            // for문 돌면서 result 저장해주기
-            var body = `<tr>result<tr>`
-            var html = template.APPLY_LIST(result);
+            var html = template.APPLY_LIST(rows);
             response.send(html);
-            
-            
+        });
+          
         con.end();
-        response.send('완료');
+        
     }
     
 }
