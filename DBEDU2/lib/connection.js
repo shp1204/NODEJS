@@ -1,10 +1,8 @@
 const { response } = require('express');
 const { xssFilter } = require('helmet');
-
-
+const { default: strictTransportSecurity } = require('helmet/dist/middlewares/strict-transport-security');
 
 var dbconn = {
-
     // JOIN 
     INSERT : function(sqlquery, parameters){
         var mysql = require('mysql');
@@ -112,30 +110,35 @@ var dbconn = {
 
             if(error){
                 console.log(err);
+                
             } else{
-                var rows = ``;
-                for(var i=0; i<result.length; i++){
-                    var form_id = i + 1;
-                    var form_apply_date = result[i].form_apply_date;
-                    var form_user_name = result[i].form_user_name;
-                    var form_lec_title = result[i].lec_title;
-                    var rows = rows + `
-                        <tr>
-                        <td>${form_id}</td>
-                        <td>${form_apply_date}</td>
-                        <td>${form_user_name}</td>
-                        <td>${form_lec_title}</td>
-                        </tr>
-                        ` 
-                };                
+                var tmp_body = '';
+                for (var i = 0; i < result.length; i++){
+                    
+                    var apply_date = new Date(result[i].form_apply_date);
+                    var apply_date =  apply_date.getUTCFullYear().toString() + `-` +  apply_date.getUTCMonth().toString() + `-` + apply_date.getUTCDate().toString()
+                    
+                    var user_name = result[i].form_user_name;
+                    var lec_title = result[i].form_lec_title;
+                
+                    tmp_body = tmp_body + `<tr><td>` + (i + 1) + `</td>`;
+                    tmp_body = tmp_body + `<td>` + apply_date + `</td>`
+                    tmp_body = tmp_body + `<td>` + user_name + `</td>`
+                    tmp_body = tmp_body + `<td>` + lec_title + `</td></tr>`
+    
+                }
+                var template = require('../lib/template.js');
+                var html = template.APPLY_LIST(tmp_body);
+                
+                response.send(html);
+                
             }
-            var template = require('../lib/template.js');
-            var html = template.APPLY_LIST(rows);
-            response.send(html);
         });
-          
+            
+            
+            
         con.end();
-        
+        //response.send('완료');
     }
     
 }

@@ -101,6 +101,7 @@ var template = {
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>로그인 성공</title> <meta charset="utf-8">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         </head> 
         <body>
             <h1 class="text-center" > 교육 신청서 </h1>
@@ -144,7 +145,7 @@ var template = {
             <br>
 
             
-            <table class = "table table-hover table-xs pull-left">
+            <table class = "table table-responsive table-hover table-xs pull-left">
                 <thead>
                     <p class = "text-center btn-success" style = "border-style: dotted; width:20%;" > 교육기관 정보 </p>
                     
@@ -167,21 +168,20 @@ var template = {
                 </tbody>
             </table>
 
-            <br>
-            <br>
-            <br>
+            <br><br><br>
 
             
-            <table class = "table table-hover">
-                <thread>
+            <table class = "table table-responsive table-hover table-xs pull-left">
+                <thead>
                     <p class = "text-center btn-success" style = "border-style: dotted; width:20%;" > 결재 </p>
+
                     <tr class = "text-center">
                         <th> 본인 </th>
                         <th> 결재1 </th>
                         <th> 결재2 </th>
                         <th> 결재3 </th>
                     </tr>
-                </thread>
+                </thead>
                 <tbody>
                     <tr>
                         <td scope = "row"> <input type = "text" class = "text-center" style = "width:100%" name = "approval0" placeholder = "approval0"></td>
@@ -208,7 +208,7 @@ var template = {
         
         `
     },
-    APPLY_LIST : function(rows){
+    APPLY_LIST : function(tmp_body){
         return `
         <!DOCTYPE html>
         <html lang="en">
@@ -217,7 +217,8 @@ var template = {
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Document</title>
-            <link rel = "stylesheet" href = "css/bootstrap.css">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
         </head>
         <body>
 
@@ -238,7 +239,7 @@ var template = {
                     </tr>
                     </thead>
                     <tbody class = "table table-hover">
-                        ${rows}
+                        ${tmp_body}
                     </tbody>
                 </table>
 
@@ -250,6 +251,7 @@ var template = {
                 
                 <input type = "submit" class = "text-center btn-primary btn-right" style="float: right;" value= "신청서 작성하기">
             </div>
+            
             <script src = "js/jquery-3.1.1.js"></script>
             <scriptsrc src = "js/bootstrap.js"></script>
         </body>
