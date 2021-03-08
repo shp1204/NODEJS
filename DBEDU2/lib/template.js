@@ -124,7 +124,6 @@ var template = {
                         <th style = "width: 5%"> 가격</th>
                         <th style = "width: 40%"> 내용 </th>
                         <th style = "width: 40%"> 필요성 </th>
-                        
                     </tr>
                 </thead>
                 <tbody class = "table-hover">
@@ -145,7 +144,7 @@ var template = {
             <br>
 
             
-            <table class = "table table-responsive table-hover table-xs pull-left">
+            <table class = "table table-responsive">
                 <thead>
                     <p class = "text-center btn-success" style = "border-style: dotted; width:20%;" > 교육기관 정보 </p>
                     
@@ -221,21 +220,21 @@ var template = {
 
         </head>
         <body>
-
+            <form action = "/apply" method = "get">
             <br><br>
             
             <h1 class="text-center" > 신청 목록 </h1>
 
             <br><br>
 
-            <div class = "containter">  
-                <table class = "table-center table-xs table-responsive" style = "  width:80%">
+            <div class = "containter" >  
+                <table class = "table table-responsive" >
                     <thead>
                     <tr class = "text-center">
-                        <th style = "width: 5%">번호</th>
-                        <th style = "width: 10%">신청일자</th>
-                        <th style = "width: 10%">신청자</th>
-                        <th style = "width: 75%">강좌 제목</th>
+                        <th style = "width: 5%"> 번호 </th>
+                        <th style = "width: 10%"> 신청일자 </th>
+                        <th style = "width: 10%"> 신청자 </th>
+                        <th style = "width: 30%"> 강좌 제목 </th>
                     </tr>
                     </thead>
                     <tbody class = "table table-hover">
@@ -249,7 +248,69 @@ var template = {
                 
                 <hr/>
                 
+                
                 <input type = "submit" class = "text-center btn-primary btn-right" style="float: right;" value= "신청서 작성하기">
+                </form>
+            </div>
+            
+            <script src = "js/jquery-3.1.1.js"></script>
+            <scriptsrc src = "js/bootstrap.js"></script>
+        </body>
+        </html>
+        `
+    },
+    APPROVE : function(tmp_body){
+        return `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        </head>
+        <body>
+            
+            <br><br>
+            
+            <h1 class="text-center" > 결재 목록 </h1>
+            <form action = "/apply/approval/process" method = "get">
+            <br><br>
+
+            <div class = "containter" >  
+                <table class = "table table-responsive" >
+                    <thead>
+                    <tr class = "text-center">
+                        <th style = "width: 5%"> 번호 </th>
+                        <th style = "width: 10%"> 신청일자 </th>
+                        <th style = "width: 10%"> 신청자 </th>
+                        <th style = "width: 20%"> 강좌 제목 </th>
+                        <th style = "width: 10%"> 교육신청자 </th>
+                        <th style = "width: 2.5%"> </th>
+                        <th style = "width: 10%"> 결재_1 </th>
+                        <th style = "width: 2.5%"> </th>
+                        <th style = "width: 10%"> 결재_2 </th>
+                        <th style = "width: 2.5%"> </th>
+                        <th style = "width: 10%"> 결재_3 </th>
+                        <th style = "width: 2.5%"> </th>
+                    </tr>
+                    </thead>
+                    <tbody class = "table table-hover">
+                        ${tmp_body}
+                    </tbody>
+                </table>
+
+                <br>
+                <br>
+                <br>
+                
+                <hr/>
+                
+                
+                <input type = "submit" class = "text-center btn-primary btn-right" style="float: right;" value= "결재 진행">
+                
             </div>
             
             <script src = "js/jquery-3.1.1.js"></script>
