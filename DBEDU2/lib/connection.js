@@ -115,8 +115,9 @@ var dbconn = {
                 var tmp_body = '';
                 for (var i = 0; i < result.length; i++){
                     
-                    var apply_date = new Date(result[i].form_apply_date);
-                    var apply_date =  apply_date.getUTCFullYear().toString() + `-` +  apply_date.getUTCMonth().toString() + `-` + apply_date.getUTCDate().toString()
+                    var apply_date = new Date(result[i].form_apply_date).toLocaleDateString();
+                    // .toLocaleString("ko-KR", {timeZone : "Asia/Seoul"});
+                    
                     
                     var user_name = result[i].form_user_name;
                     var lec_title = result[i].form_lec_title;
@@ -163,8 +164,8 @@ var dbconn = {
                 var tmp_body = '';
                 for (var i = 0; i < result.length; i++){
                     
-                    var apply_date = new Date(result[i].form_apply_date);
-                    var apply_date =  apply_date.getUTCFullYear().toString() + `-` +  apply_date.getUTCMonth().toString() + `-` + apply_date.getUTCDate().toString()
+
+                    var apply_date = new Date(result[i].form_apply_date).toLocaleDateString();
                     
                     var user_name = result[i].form_user_name;
                     var lec_title = result[i].form_lec_title;
@@ -178,36 +179,46 @@ var dbconn = {
                     var stat_2 = result[i].appr_status_2;
                     var stat_3 = result[i].appr_status_3;
 
-                    for(i==0; i<4; i++){
-                        if (`stat_`+ `${i}` == 0){
-                            `stat_`+ `${i}` === "검토 중";
-                        }
-                        else if(`stat_`+ `${i}` == 1){
-                            `stat_`+ `${i}` === "승인";
-                        }else{
-                            `stat_`+ `${i}` === "반려";
-                        }
-                    }
+                    var final_stat = ``
+                    var stat_list = [stat_0, stat_1, stat_2, stat_3];
 
-                    tmp_body = tmp_body + `<tr><td>` + (i + 1) + `</td>`;
+                  
+                    if(0 in stat_list){
+                        final_stat = `진행 중`
+                    }else if(2 in stat_list){
+                        final_stat = `진행 중`
+                    }else{
+                        final_stat = `승인`
+                    };
+                    
+                    
+                    tmp_body = tmp_body + `<tr><td>` + (i + 1) + `</td>`
                     tmp_body = tmp_body + `<td>` + apply_date + `</td>`
                     tmp_body = tmp_body + `<td>` + user_name + `</td>`
                     tmp_body = tmp_body + `<td>` + lec_title + `</td>`
-                    tmp_body = tmp_body + `<td>` + appr_0 + `</td>`
-                    tmp_body = tmp_body + `<td>` + stat_0 + `</td>`
-                    tmp_body = tmp_body + `<td>` + appr_1 + `</td>`
-                    tmp_body = tmp_body + `<td>` + stat_1 + `</td>`
-                    tmp_body = tmp_body + `<td>` + appr_2 + `</td>`
-                    tmp_body = tmp_body + `<td>` + stat_2 + `</td>`
-                    tmp_body = tmp_body + `<td>` + appr_3 + `</td>`
-                    tmp_body = tmp_body + `<td>` + stat_3 + `</td></tr>`
+                    // tmp_body = tmp_body + `<td><input type="button" value="` + final_stat +  `" onclick="showPopup();"></td></tr>`
+
+                    tmp_body = tmp_body + `<td><button type = "button" onclick="myFunction()">` + final_stat + `</td></tr>`
+                    
+
+                    // tmp_body = tmp_body + `<td>` + appr_0 + `</td>`
+                    // tmp_body = tmp_body + `<td>` + stat_0 + `</td>`
+                    // tmp_body = tmp_body + `<td>` + appr_1 + `</td>`
+                    // tmp_body = tmp_body + `<td>` + stat_1 + `</td>`
+                    // tmp_body = tmp_body + `<td>` + appr_2 + `</td>`
+                    // tmp_body = tmp_body + `<td>` + stat_2 + `</td>`
+                    // tmp_body = tmp_body + `<td>` + appr_3 + `</td>`
+                    // tmp_body = tmp_body + `<td>` + stat_3 + `</td></tr>`
     
                 }
-                var template = require('../lib/template.js');
-                var html = template.APPROVE(tmp_body);
-                
-                response.send(html);
             }
+
+            var template = require('../lib/template.js');
+            var html = template.APPROVE(tmp_body);
+                
+            response.send(html);
+            
+
         });           
         con.end();
     }

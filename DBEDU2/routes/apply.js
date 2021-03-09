@@ -15,10 +15,12 @@ router.post('/process', function(request, response){
     var post = request.body;
     const obj = JSON.parse(JSON.stringify(post)); 
     var keys = Object.keys(obj);
+    
     var sql = 'INSERT INTO tb_application_form(form_apply_date, form_user_name, form_lec_title, form_lec_start, form_lec_end, form_lec_price, form_lec_content, form_purpose, form_lec_onoff, form_lec_org, form_lec_link,form_appr_0, form_appr_1, form_appr_2, form_appr_3) VALUES(?)';
     var key_list = [];
     for (var i=0; i < keys.length; i++){
         key_list.push(obj[keys[i]]);
+        console.log(obj[keys[i]]);
     };
     var params = [key_list];
     dbconn.INSERT(sql, params);    
@@ -35,9 +37,8 @@ router.get('/list', function(request, response){
 });
 
 router.get('/approval', function(request, response){
-    console.log('----')
     var sql = 'SELECT form_id, form_apply_date, form_user_name, form_lec_title, form_appr_0, form_appr_1, form_appr_2, form_appr_3, appr_status_0, appr_status_1, appr_status_2, appr_status_3 FROM tb_application_form'
-    console.log('----')
+    
     dbconn.SHOW2(sql, response)
     // response.send('결재 화면');
 });

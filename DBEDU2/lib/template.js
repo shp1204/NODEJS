@@ -100,7 +100,7 @@ var template = {
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>로그인 성공</title> <meta charset="utf-8">
+            <title>교육 신청서 작성</title> <meta charset="utf-8">
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         </head> 
         <body>
@@ -215,7 +215,7 @@ var template = {
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
+            <title>신청 목록</title>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
         </head>
@@ -267,9 +267,21 @@ var template = {
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
+            <title>결재 목록</title>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+            
+            <script language="javascript">
+            function myFunction() {
+                alert("I am an alert box!");
+            }
+            </script>
 
+            <script language="javascript">
+            function showPopup(){ window.open("결재 진행 상황.html", "결재 진행 상황", "width=400, height=300, left=100, top=50");}
+            </script>
+
+
+            
         </head>
         <body>
             
@@ -287,14 +299,8 @@ var template = {
                         <th style = "width: 10%"> 신청일자 </th>
                         <th style = "width: 10%"> 신청자 </th>
                         <th style = "width: 20%"> 강좌 제목 </th>
-                        <th style = "width: 10%"> 교육신청자 </th>
-                        <th style = "width: 2.5%"> </th>
-                        <th style = "width: 10%"> 결재_1 </th>
-                        <th style = "width: 2.5%"> </th>
-                        <th style = "width: 10%"> 결재_2 </th>
-                        <th style = "width: 2.5%"> </th>
-                        <th style = "width: 10%"> 결재_3 </th>
-                        <th style = "width: 2.5%"> </th>
+                        <th style = "width: 20%"> 결재 상태 </th>
+                        <th style = "width: 10%"> 결재 승인 일자 </th>
                     </tr>
                     </thead>
                     <tbody class = "table table-hover">
