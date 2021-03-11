@@ -163,16 +163,12 @@ var dbconn = {
             } else{
                 var tmp_body = '';
                 for (var i = 0; i < result.length; i++){
-                    
-
                     var apply_date = new Date(result[i].form_apply_date).toLocaleDateString();
                     
+                    var form_id = result[i].form_id
+
                     var user_name = result[i].form_user_name;
                     var lec_title = result[i].form_lec_title;
-                    var appr_0 = result[i].form_appr_0;
-                    var appr_1 = result[i].form_appr_1;
-                    var appr_2 = result[i].form_appr_2;
-                    var appr_3 = result[i].form_appr_3;
 
                     var stat_0 = result[i].appr_status_0;
                     var stat_1 = result[i].appr_status_1;
@@ -181,8 +177,6 @@ var dbconn = {
 
                     var final_stat = ``
                     var stat_list = [stat_0, stat_1, stat_2, stat_3];
-
-                  
                     if(0 in stat_list){
                         final_stat = `진행 중`
                     }else if(2 in stat_list){
@@ -190,35 +184,152 @@ var dbconn = {
                     }else{
                         final_stat = `승인`
                     };
-                    
-                    
+                                        
                     tmp_body = tmp_body + `<tr><td>` + (i + 1) + `</td>`
                     tmp_body = tmp_body + `<td>` + apply_date + `</td>`
                     tmp_body = tmp_body + `<td>` + user_name + `</td>`
                     tmp_body = tmp_body + `<td>` + lec_title + `</td>`
-                    // tmp_body = tmp_body + `<td><input type="button" value="` + final_stat +  `" onclick="showPopup();"></td></tr>`
-
-                    tmp_body = tmp_body + `<td><button type = "button" onclick="myFunction()">` + final_stat + `</td></tr>`
+                    tmp_body = tmp_body + `<td><a href="/apply/approval/${form_id}" class = "text-center">${final_stat}</td></tr>`    
+                    // tmp_body = tmp_body + `<td><a href="/apply/approval/${(i+1)}/${form_id}" class = "text-center">${final_stat}</td></tr>`    
                     
-
-                    // tmp_body = tmp_body + `<td>` + appr_0 + `</td>`
-                    // tmp_body = tmp_body + `<td>` + stat_0 + `</td>`
-                    // tmp_body = tmp_body + `<td>` + appr_1 + `</td>`
-                    // tmp_body = tmp_body + `<td>` + stat_1 + `</td>`
-                    // tmp_body = tmp_body + `<td>` + appr_2 + `</td>`
-                    // tmp_body = tmp_body + `<td>` + stat_2 + `</td>`
-                    // tmp_body = tmp_body + `<td>` + appr_3 + `</td>`
-                    // tmp_body = tmp_body + `<td>` + stat_3 + `</td></tr>`
-    
-                }
-            }
-
+            };
             var template = require('../lib/template.js');
             var html = template.APPROVE(tmp_body);
-                
-            response.send(html);
-            
 
+            response.send(html);
+        };
+        });           
+        con.end();
+    },
+
+    SHOW3 : function(formId, sqlquery, response){
+        var mysql = require('mysql');
+        const vals = require('../info/consts_daim.js');
+
+        var con = mysql.createConnection({
+            host: vals.DBHost, port:vals.DBPort,
+            user: vals.DBUser, password: vals.DBPass,
+            connectionLimit: 5, database: vals.DB
+        });
+
+        // 연결되었는지 확인
+        con.connect(function(err){
+            if (err) throw err;
+            console.log("You are connected");
+        });
+
+        // 수행하고 싶은 작업(sql문) 
+        var sql = sqlquery;
+        var params = formId;
+        con.query(sql, params, function(error, result){
+            try{
+                var tmp_body = '';
+                var apply_date = new Date(result[0].form_apply_date).toLocaleDateString();
+                
+                // for update 
+                var form_id = result[0].form_id
+
+                var user_name = result[0].form_user_name;
+                var lec_title = result[0].form_lec_title;
+
+                var appr_0 = result[0].form_appr_0;
+                var appr_1 = result[0].form_appr_1;
+                var appr_2 = result[0].form_appr_2;
+                var appr_3 = result[0].form_appr_3;
+
+                var stat_0 = result[0].appr_status_0;
+                var stat_1 = result[0].appr_status_1;
+                var stat_2 = result[0].appr_status_2;
+                var stat_3 = result[0].appr_status_3;
+                
+                var final_stat = ``
+                var stat_list = [stat_0, stat_1, stat_2, stat_3];
+                if(0 in stat_list){
+                    final_stat = `진행 중`
+                }else if(2 in stat_list){
+                    final_stat = `진행 중`
+                }else{
+                    final_stat = `승인`
+                };
+
+                tmp_body = tmp_body + `<tr><td>` + form_id + `</td>`
+                tmp_body = tmp_body + `<td>` + apply_date + `</td>`
+                tmp_body = tmp_body + `<td>` + user_name + `</td>`
+                tmp_body = tmp_body + `<td>` + lec_title + `</td>`
+                // tmp_body = tmp_body + `<td><a href="/apply/approval/${(idx+1)}/${form_id}" class = "text-center">${final_stat}</td></tr>`
+                tmp_body = tmp_body + `<td><a href="/apply/approval/${form_id}" class = "text-center">${final_stat}</td></tr>`
+
+                var appr_list = [appr_0, appr_1, appr_2, appr_3]
+                for(var i=0; i < 4; i++){
+                    if (stat_list[i] == 1){
+                        stat_list[i] = '승인'
+                    } 
+                    else if (stat_list[i] == 0){
+                        stat_list[i] = '검토중'
+                    }
+                    else if (stat_list[i] == 2){
+                        stat_list[i] = '반려'
+                    }
+                }
+
+                var tag = `
+                <select name = "approval" id = "selectAppr">
+                <option value="none" selected disabled hidden>선택</option>
+                <option value=1>승인</option>
+                <option value=2>반려</option>
+                </select>
+                `;
+
+
+                var tmp_body2 = `
+                
+                <table class = "table table-responsive" >
+                    <thead>
+                    <tr class = "text-center">
+                        <th style = "width: 10%"> 결재자 </th>
+                        <th style = "width: 10%"> 현재 </th>
+                        <th style = "width: 10%"> 승인/반려 </th>
+                    </tr>
+                    </thead>
+                    <tbody class = "table table-hover">
+                        <tr>
+                            <td>${appr_list[0]}</td>
+                            <td>${stat_list[0]}</td>
+                            <td>${tag} </td>
+                        </tr>
+
+                        <tr>
+                            <td>${appr_list[1]}</td>
+                            <td>${stat_list[1]}</td>
+                            <td>${tag} </td>
+                        </tr>
+
+                        <tr>
+                            <td>${appr_list[2]}</td>
+                            <td>${stat_list[2]}</td>
+                            <td>${tag} </td>
+                        </tr>
+
+                        <tr>
+                            <td>${appr_list[3]}</td>
+                            <td>${stat_list[3]}</td>
+                            <td>${tag} </td>
+                        </tr>
+                    </tbody>
+                </table>`
+            
+            var template = require('../lib/template.js');
+            var html = template.APPROVE2(tmp_body, tmp_body2);
+
+            response.send(html);
+
+
+            }catch(error){
+                console.log(error);
+                con.end();
+                response.send('error')
+            }
+            
         });           
         con.end();
     }

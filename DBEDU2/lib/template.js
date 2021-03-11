@@ -270,25 +270,12 @@ var template = {
             <title>결재 목록</title>
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
             
-            <script language="javascript">
-            function myFunction() {
-                alert("I am an alert box!");
-            }
-            </script>
-
-            <script language="javascript">
-            function showPopup(){ window.open("결재 진행 상황.html", "결재 진행 상황", "width=400, height=300, left=100, top=50");}
-            </script>
-
-
-            
         </head>
         <body>
             
             <br><br>
-            
             <h1 class="text-center" > 결재 목록 </h1>
-            <form action = "/apply/approval/process" method = "get">
+            <form action = "apply/approval/" method = "get">
             <br><br>
 
             <div class = "containter" >  
@@ -305,6 +292,7 @@ var template = {
                     </thead>
                     <tbody class = "table table-hover">
                         ${tmp_body}
+                        
                     </tbody>
                 </table>
 
@@ -313,11 +301,60 @@ var template = {
                 <br>
                 
                 <hr/>
-                
-                
-                <input type = "submit" class = "text-center btn-primary btn-right" style="float: right;" value= "결재 진행">
+
                 
             </div>
+            
+            <script src = "js/jquery-3.1.1.js"></script>
+            <scriptsrc src = "js/bootstrap.js"></script>
+        </body>
+        </html>
+        `
+    },
+    APPROVE2 : function(tmp_body, tmp_body2){
+        return `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>결재 목록</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+            
+        </head>
+        <body>
+            
+            <br><br>
+            <h1 class="text-center" > 결재 목록 </h1>
+            <form action = "/apply/approval/process" method = "post">
+            <br><br>
+
+            <div class = "containter" >  
+                <table class = "table table-responsive" >
+                    <thead>
+                    <tr class = "text-center">
+                        <th style = "width: 5%"> 고유번호 </th>
+                        <th style = "width: 10%"> 신청일자 </th>
+                        <th style = "width: 10%"> 신청자 </th>
+                        <th style = "width: 20%"> 강좌 제목 </th>
+                        <th style = "width: 20%"> 결재 상태 </th>
+                        <th style = "width: 10%"> 결재 승인 일자 </th>
+                    </tr>
+                    </thead>
+                    <tbody class = "table table-hover">
+                        ${tmp_body}
+                    </tbody>
+                </table>
+
+                <br><br><br>
+
+                ${tmp_body2}
+
+                <input type = "submit" class = "text-center btn-primary btn-right" style="float: right;" value= "확인">
+            </div>
+
+            
             
             <script src = "js/jquery-3.1.1.js"></script>
             <scriptsrc src = "js/bootstrap.js"></script>
