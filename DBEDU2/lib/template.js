@@ -275,7 +275,7 @@ var template = {
             
             <br><br>
             <h1 class="text-center" > 결재 목록 </h1>
-            <form action = "apply/approval/" method = "get">
+            <form action = "apply/approval" method = "get">
             <br><br>
 
             <div class = "containter" >  
@@ -311,7 +311,7 @@ var template = {
         </html>
         `
     },
-    APPROVE2 : function(tmp_body, tmp_body2){
+    APPROVE2 : function(pageId, tmp_body, tmp_body2){
         return `
         <!DOCTYPE html>
         <html lang="en">
@@ -327,7 +327,7 @@ var template = {
             
             <br><br>
             <h1 class="text-center" > 결재 목록 </h1>
-            <form action = "/apply/approval/process" method = "post">
+            <form action = "/apply/approval/process/${pageId}" method = "get">
             <br><br>
 
             <div class = "containter" >  

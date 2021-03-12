@@ -44,37 +44,26 @@ router.get('/approval', function(request, response){
     // response.send('결재 화면');
 });
 
-router.post('/approval/process', function(request, response){
+router.get('/approval/process/:pageId', function(request, response){
 
-    /*
-        넘겨받은 selected 값 확인 후 변환
-        해당 신청서 정보
-        selected 값 정보
-    */
 
-    var appr_length = request.body.approval
-    console.log(appr_length); 
-    // [1, 1, 1, 1]
-    // option을 default로 selected 해둬야 -> 값 넘겨받아서 업데이트 할때 순서대로 가능함
-    //console.log(request);
+    var pageId = path.parse(request.params.pageId).base;
+    var sql = 'UPDATE tb_application_form SET appr_status_0, appr_status_1, appr_status_2, appr_status_3 = ? WHERE form_id = ?';
+    var params= request.body.approval;
+ 
+    dbconn.UPDATE(sql, params, pageId, response);
+
     
-
-
-    // const obj = JSON.parse(JSON.stringify(post)); 
-    // var keys = Object.keys(obj);
-    // for (var i=0; i < keys.length; i++){
-    //     console.log(obj[keys[i]]);
-    // };
-
-
-    // var sql = 'ALTER TABLE tb_application_form MODIFY '
-
-    response.send('결재 중~');
 });
 
 router.get('/approval/:pageId', function(request, response){
 
     var sql = 'SELECT form_id, form_apply_date, form_user_name, form_lec_title, form_appr_0, form_appr_1, form_appr_2, form_appr_3, appr_status_0, appr_status_1, appr_status_2, appr_status_3 FROM tb_application_form WHERE form_id = ?'
+
+    for(var i=0; i<4; i++){
+        
+    }
+    
     var pageId = path.parse(request.params.pageId).base;
     
     dbconn.SHOW3(pageId, sql, response)

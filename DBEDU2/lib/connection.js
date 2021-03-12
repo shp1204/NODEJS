@@ -259,26 +259,42 @@ var dbconn = {
                 // tmp_body = tmp_body + `<td><a href="/apply/approval/${(idx+1)}/${form_id}" class = "text-center">${final_stat}</td></tr>`
                 tmp_body = tmp_body + `<td><a href="/apply/approval/${form_id}" class = "text-center">${final_stat}</td></tr>`
 
+                
                 var appr_list = [appr_0, appr_1, appr_2, appr_3]
+                var tag_list = [``,``,``,``]
                 for(var i=0; i < 4; i++){
+
+                    var tag = `<select name = "approval" id = "selectAppr">`
+
                     if (stat_list[i] == 1){
                         stat_list[i] = '승인'
+
+                        tag += `<option value=1 selected="selected">승인</option>`
                     } 
                     else if (stat_list[i] == 0){
                         stat_list[i] = '검토중'
+                        tag += `<option value = 0 selected="selected">선택</option>
+                        <option value=1>승인</option>
+                        <option value=2>반려</option>
+                        `
                     }
                     else if (stat_list[i] == 2){
                         stat_list[i] = '반려'
+                        tag += `<option value=2 selected>반려</option>`
                     }
+
+                    tag += `</select>`
+
+                    tag_list[i] = tag
                 }
 
-                var tag = `
-                <select name = "approval" id = "selectAppr">
-                <option value="none" selected disabled hidden>선택</option>
-                <option value=1>승인</option>
-                <option value=2>반려</option>
-                </select>
-                `;
+                // var tag = `
+                // <select name = "approval" id = "selectAppr">
+                // <option value="none" selected disabled hidden>선택</option>
+                // <option value=1>승인</option>
+                // <option value=2>반려</option>
+                // </select>
+                // `;
 
 
                 var tmp_body2 = `
@@ -295,31 +311,31 @@ var dbconn = {
                         <tr>
                             <td>${appr_list[0]}</td>
                             <td>${stat_list[0]}</td>
-                            <td>${tag} </td>
+                            <td>${tag_list[0]} </td>
                         </tr>
 
                         <tr>
                             <td>${appr_list[1]}</td>
                             <td>${stat_list[1]}</td>
-                            <td>${tag} </td>
+                            <td>${tag_list[1]} </td>
                         </tr>
 
                         <tr>
                             <td>${appr_list[2]}</td>
                             <td>${stat_list[2]}</td>
-                            <td>${tag} </td>
+                            <td>${tag_list[2]} </td>
                         </tr>
 
                         <tr>
                             <td>${appr_list[3]}</td>
                             <td>${stat_list[3]}</td>
-                            <td>${tag} </td>
+                            <td>${tag_list[3]} </td>
                         </tr>
                     </tbody>
                 </table>`
             
             var template = require('../lib/template.js');
-            var html = template.APPROVE2(tmp_body, tmp_body2);
+            var html = template.APPROVE2(form_id, tmp_body, tmp_body2);
 
             response.send(html);
 
@@ -332,6 +348,37 @@ var dbconn = {
             
         });           
         con.end();
+    },
+
+    UPDATE : function(sqlquery, parameters, pageId, response){
+        var mysql = require('mysql');
+        const vals = require('../info/consts_daim.js');
+
+        var con = mysql.createConnection({
+            host: vals.DBHost, port:vals.DBPort,
+            user: vals.DBUser, password: vals.DBPass,
+            connectionLimit: 5, database: vals.DB
+        });
+
+        // 연결되었는지 확인
+        con.connect(function(err){
+            if (err) throw err;
+            console.log("You are connected");
+        });
+
+        // 수행하고 싶은 작업(sql문) 
+        var sql = sqlquery;
+        var params = parameters;
+        con.query(sql, params, pageId, function(error, result){
+            // ? 두 개에 params 들어갈 수 있는지 확인
+            // 안되면 params에 몰아서 넣어줘야함 -> list로 되는지 확인
+            console.log("ok")
+            console.log(result);
+        })
+
+        response.send('결재 중~');
+        con.end();
+
     }
 }
 
