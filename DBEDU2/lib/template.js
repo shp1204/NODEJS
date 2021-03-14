@@ -287,7 +287,7 @@ var template = {
                         <th style = "width: 10%"> 신청자 </th>
                         <th style = "width: 20%"> 강좌 제목 </th>
                         <th style = "width: 20%"> 결재 상태 </th>
-                        <th style = "width: 10%"> 결재 승인 일자 </th>
+                        
                     </tr>
                     </thead>
                     <tbody class = "table table-hover">
@@ -339,7 +339,7 @@ var template = {
                         <th style = "width: 10%"> 신청자 </th>
                         <th style = "width: 20%"> 강좌 제목 </th>
                         <th style = "width: 20%"> 결재 상태 </th>
-                        <th style = "width: 10%"> 결재 승인 일자 </th>
+                        
                     </tr>
                     </thead>
                     <tbody class = "table table-hover">

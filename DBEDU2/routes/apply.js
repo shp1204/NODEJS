@@ -32,7 +32,7 @@ router.post('/process', function(request, response){
 
 
 router.get('/list', function(request, response){
-    //response.send('교육 신청 목록');
+    
     var sql = 'SELECT form_id, form_apply_date, form_user_name, form_lec_title FROM tb_application_form';
     dbconn.SHOW(sql, response);
 });
@@ -41,18 +41,6 @@ router.get('/approval', function(request, response){
     var sql = 'SELECT form_id, form_apply_date, form_user_name, form_lec_title, form_appr_0, form_appr_1, form_appr_2, form_appr_3, appr_status_0, appr_status_1, appr_status_2, appr_status_3 FROM tb_application_form'
     
     dbconn.SHOW2(sql, response)
-    // response.send('결재 화면');
-});
-
-router.get('/approval/process/:pageId', function(request, response){
-
-
-    var pageId = path.parse(request.params.pageId).base;
-    var sql = 'UPDATE tb_application_form SET appr_status_0, appr_status_1, appr_status_2, appr_status_3 = ? WHERE form_id = ?';
-    var params= request.body.approval;
- 
-    dbconn.UPDATE(sql, params, pageId, response);
-
     
 });
 
@@ -60,15 +48,23 @@ router.get('/approval/:pageId', function(request, response){
 
     var sql = 'SELECT form_id, form_apply_date, form_user_name, form_lec_title, form_appr_0, form_appr_1, form_appr_2, form_appr_3, appr_status_0, appr_status_1, appr_status_2, appr_status_3 FROM tb_application_form WHERE form_id = ?'
 
-    for(var i=0; i<4; i++){
-        
-    }
-    
     var pageId = path.parse(request.params.pageId).base;
     
     dbconn.SHOW3(pageId, sql, response)
-    // response.send("결재중")
+   
 })
+
+router.get('/approval/process/:pageId', function(request, response){
+
+
+    var pageId = path.parse(request.params.pageId).base;
+    var params= request.query.approval;
+    var sql = 'UPDATE tb_application_form SET appr_status_0 = ' + params[0] + ', appr_status_1 = ' + params[1] + ', appr_status_2 = ' + params[2] +', appr_status_3 = ' + params[3]
+    + ' WHERE form_id = ' + pageId;
+
+    dbconn.UPDATE(sql, response);
+   
+});
 
 router.get('/approval/update/:pageId', function(request, response){
     response.send("업데이트중")

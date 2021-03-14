@@ -350,7 +350,7 @@ var dbconn = {
         con.end();
     },
 
-    UPDATE : function(sqlquery, parameters, pageId, response){
+    UPDATE : function(sqlquery,  response){
         var mysql = require('mysql');
         const vals = require('../info/consts_daim.js');
 
@@ -368,15 +368,15 @@ var dbconn = {
 
         // 수행하고 싶은 작업(sql문) 
         var sql = sqlquery;
-        var params = parameters;
-        con.query(sql, params, pageId, function(error, result){
-            // ? 두 개에 params 들어갈 수 있는지 확인
-            // 안되면 params에 몰아서 넣어줘야함 -> list로 되는지 확인
-            console.log("ok")
-            console.log(result);
+        con.query(sql, function(error, result){
+            if(error){
+                console.log(error);
+            } else{
+                response.redirect('/apply/approval');
+            }
         })
 
-        response.send('결재 중~');
+        //response.send('결재 중~');
         con.end();
 
     }
