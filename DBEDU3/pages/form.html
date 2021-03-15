@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교육 신청서</title>
+    <link rel = "stylesheet" href = "css/bootstrap.css">
+</head>
+<body>
+
+    <!-- container -->
+    <br>
+    <br>
+    
+    <h1 class="text-center" > 교육 신청서 </h1>
+
+    <br>
+    <br>
+
+    <div class = "container"> 
+        <p class = "text-center" style="float: right;"> 
+        신청일 <input type = "date" id="now_date" name = "date" placeholder = "date">
+        신청자 <input type = "text" name = "user_name" placeholder = "user_name"></p>
+        <!-- 신청부서 <input type = "text" name = "department" placeholder = "department"></p> // 나중에 화면에서 보여주기-->
+        
+        <br><br>
+        
+
+        <!-- 강좌 정보 table-hover--> 
+        <table class = "table table-responsive"  >  
+            <thead> 
+                <p class = "text-center btn-success" style = "border-style: dotted; width:20%;" > 강좌 정보 </p>
+                <!-- 목록 -->
+                <tr class = "text-center">
+                    <th style = "width: 5%"> 강좌제목 </th>
+                    <th style = "width: 5%"> 시작일</th>
+                    <th style = "width: 5%"> 종료일 </th>
+                    <th style = "width: 5%"> 가격</th>
+                    <th style = "width: 40%"> 내용 </th>
+                    <th style = "width: 40%"> 필요성 </th>
+                    
+                </tr>
+            </thead>
+            <tbody class = "table-hover">
+                <!--  여기 안에 데이터가 입력된다 -->
+                <tr>
+                    <td scope = "row"> <input type = "text" class = "text-center" name = "title" placeholder = "title"></td>
+                    <td scope = "row"> <input type = "date" name = "start" placeholder = "start"> </td>
+                    <td scope = "row"> <input type = "date" name = "end" placeholder = "end"> </td>
+                    <td scope = "row"> <input type = "text" class = "text-center" name = "price" placeholder = "price"> </td>
+                    <td scope = "row"> <input type = "text" class = "text-center" style = "width:100%" name = "content" placeholder = "content"> </td>
+                    <td scope = "row"> <input type = "text" class = "text-center" style = "width:100%" name = "purpose" placeholder = "purpose"> </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+        <br>
+
+        <!-- 교육 기관 정보 -->
+        <table class = "table table-hover table-xs pull-left">
+            <thead>
+                <p class = "text-center btn-success" style = "border-style: dotted; width:20%;" > 교육기관 정보 </p>
+                <!-- 목록 -->
+                <tr class = "text-center">
+                    <th style = "width:20%"> 교육 on/off </th>
+                    <th style = "width:20%"> 교육 기관 </th>
+                    <th style = "width:60%"> 링크</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--  여기 안에 데이터가 입력된다 -->
+                <tr>
+                    <td scope = "row" class = "text-center"> 
+                        <label><input type = "radio" name = "edu_onoff" placeholder = "edu_onoff" value = "on"> on </label>&nbsp
+                        <label><input type = "radio" name = "edu_onoff" placeholder = "edu_onoff" value = "off"> off </label>
+                    </td>
+                    <td scope = "row"> <input class = "text-center" type = "text" name = "edu_org" placeholder = "edu_org"></td>
+                    <td scope = "row"  > <input type = "text" class = "text-center" style = "width:100%"  name = "edu_link" placeholder = "edu_link"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <br>
+        <br>
+        <br>
+
+        <!-- 결재자 정보-->
+        <table class = "table table-hover">
+            <thread>
+                <p class = "text-center btn-success" style = "border-style: dotted; width:20%;" > 결재 </p>
+                <tr class = "text-center">
+                    <th> 본인 </th>
+                    <th> 결재1 </th>
+                    <th> 결재2 </th>
+                    <th> 결재3 </th>
+                </tr>
+            </thread>
+            <tbody>
+                <!-- 여기 안에 데이터가 입력된다 -->
+                <tr>
+                    <td scope = "row"> <input type = "text" class = "text-center" style = "width:100%" name = "approval0" placeholder = "approval0"></td>
+                    <td scope = "row"> <input type = "text" class = "text-center" style = "width:100%" name = "approval1" placeholder = "approval1"></td>
+                    <td scope = "row"> <input type = "text" class = "text-center" style = "width:100%" name = "approval2" placeholder = "approval2"></td>
+                    <td scope = "row"> <input type = "text" class = "text-center" style = "width:100%" name = "approval3" placeholder = "approval3"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <br><br><br>
+
+        <!-- 신청하기 버튼 -->
+        <input type = "submit" class = "text-center btn-primary btn-lg btn-right" style="float: right;" value= "신청하기">
+    </div>
+
+    <script> document.getElementById('now_date').value = new Date().toISOString().slice(0, 10)</script>
+    <script src = "js/jquery-3.1.1.js"></script>
+    <scriptsrc src = "js/bootstrap.js"></script>
+    
+</body>
+</html>
